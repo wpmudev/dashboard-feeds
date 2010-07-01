@@ -1,0 +1,11 @@
+Plugin Name: Dashboard Feeds
+Author: Andrew Billits
+
+Files:
+----------------------------------------------------------------------
+dashboard-feeds.php - goes in /wp-content/mu-plugins
+
+Instructions:
+----------------------------------------------------------------------
+1) Place the files in the specified directories
+2) Configure the options at the top of the plugin
