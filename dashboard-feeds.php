@@ -1,15 +1,19 @@
 <?php
+
 /*
 Plugin Name: Dashboard Feeds
-Plugin URI: 
-Description:
-Author: Andrew Billits
-Version: 1.5.0
-Author URI:
+Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
+Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
+Author: Ivan Shaovchev, Andrew Billits (Incsub)
+Author URI: http://ivan.sh
+Version: 1.5.1
+Network: true
+WDP ID: 15
+License: GNU General Public License (Version 2 - GPLv2)
 */
 
 /* 
-Copyright 2007-2009 Incsub (http://incsub.com)
+Copyright 2007-2011 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -25,103 +29,47 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//------------------------------------------------------------------------//
-//---Config---------------------------------------------------------------//
-//------------------------------------------------------------------------//
-$primary_feed_url = '';
-$primary_feed_link = '';
-$primary_feed_title = '';
-$primary_feed_description = '';
-$secondary_feed_url = '';
-$secondary_feed_link = '';
-$secondary_feed_title = '';
-$secondary_feed_description = '';
-//------------------------------------------------------------------------//
-//---Hook-----------------------------------------------------------------//
-//------------------------------------------------------------------------//
-add_filter('dashboard_primary_feed', 'primary_dashboard_feed_url');
-add_filter('dashboard_primary_link', 'primary_dashboard_feed_link');
-add_filter('dashboard_primary_title', 'primary_dashboard_feed_title');
-add_filter('dashboard_secondary_feed', 'secondary_dashboard_feed_url');
-add_filter('dashboard_secondary_link', 'secondary_dashboard_feed_link');
-add_filter('dashboard_secondary_title', 'secondary_dashboard_feed_title');
-add_action('wp_dashboard_setup', 'dashboard_feed_descriptions', 100 );
-//------------------------------------------------------------------------//
-//---Functions------------------------------------------------------------//
-//------------------------------------------------------------------------//
+/**
+ * Set the widget settings after "=".
+ * The settings will apply to all blogs on your network and will overwrite
+ * the default and custom ones.
+ *
+ * @return void
+ **/
+function df_set_widget_options() {
 
-function dashboard_feed_descriptions() {
-	global $wp_registered_widgets, $primary_feed_description, $secondary_feed_description;
-	if ($primary_feed_description != ''){
-		if ( isset($wp_registered_widgets['dashboard_primary']) ) {
-			$wp_registered_widgets['dashboard_primary']['description']         = __( $primary_feed_description );
-		}
-	}
-	if ($secondary_feed_description != ''){
-		if ( isset($wp_registered_widgets['dashboard_secondary']) ) {
-			$wp_registered_widgets['dashboard_secondary']['description']       = __( $secondary_feed_description );
-		}
-	}
+    $widget_options['dashboard_primary']['link']         = 'http://wordpress.org/news/';
+    $widget_options['dashboard_primary']['url']          = 'http://wordpress.org/news/feed/';
+    $widget_options['dashboard_primary']['title']        = 'WordPress Blog';
+    $widget_options['dashboard_primary']['items']        = 2;
+    $widget_options['dashboard_primary']['show_summary'] = true;
+    $widget_options['dashboard_primary']['show_author']  = false;
+    $widget_options['dashboard_primary']['show_date']    = true;
+
+    $widget_options['dashboard_secondary']['link']         = 'http://planet.wordpress.org/';
+    $widget_options['dashboard_secondary']['url']          = 'http://planet.wordpress.org/feed/';
+    $widget_options['dashboard_secondary']['title']        = 'Other WordPress News';
+    $widget_options['dashboard_secondary']['items']        = 5;
+    $widget_options['dashboard_secondary']['show_summary'] = false;
+    $widget_options['dashboard_secondary']['show_author']  = false;
+    $widget_options['dashboard_secondary']['show_date']    = false;
+
+    $current_widget_options = get_option('dashboard_widget_options');
+    $widget_options = array_merge( $current_widget_options, $widget_options );
+    update_option( 'dashboard_widget_options', $widget_options );
 }
 
-function primary_dashboard_feed_url($url){
-	global $primary_feed_url;
-	if ($primary_feed_url != ''){
-		$url = $primary_feed_url;
-	}
-	return $url;
+/* Call the function */
+df_set_widget_options();
+
+/* Update Notifications Notice */
+if ( !function_exists( 'wdp_un_check' ) ) {
+    function wdp_un_check() {
+        if ( !class_exists('WPMUDEV_Update_Notifications') && current_user_can('edit_users') )
+            echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';
+    }
+    add_action( 'admin_notices', 'wdp_un_check', 5 );
+    add_action( 'network_admin_notices', 'wdp_un_check', 5 );
 }
-
-function primary_dashboard_feed_link($link){
-	global $primary_feed_link;
-	if ($primary_feed_link != ''){
-		$link = $primary_feed_link;
-	}
-	return $link;
-}
-
-function primary_dashboard_feed_title($title){
-	global $primary_feed_title;
-	if ($primary_feed_title != ''){
-		$title = $primary_feed_title;
-	}
-	return $title;
-}
-
-function secondary_dashboard_feed_url($url){
-	global $secondary_feed_url;
-	if ($secondary_feed_url != ''){
-		$url = $secondary_feed_url;
-	}
-	return $url;
-}
-
-function secondary_dashboard_feed_link($link){
-	global $secondary_feed_link;
-	if ($secondary_feed_link != ''){
-		$link = $secondary_feed_link;
-	}
-	return $link;
-}
-
-function secondary_dashboard_feed_title($title){
-	global $secondary_feed_title;
-	if ($secondary_feed_title != ''){
-		$title = $secondary_feed_title;
-	}
-	return $title;
-}
-
-//------------------------------------------------------------------------//
-//---Output Functions-----------------------------------------------------//
-//------------------------------------------------------------------------//
-
-//------------------------------------------------------------------------//
-//---Page Output Functions------------------------------------------------//
-//------------------------------------------------------------------------//
-
-//------------------------------------------------------------------------//
-//---Support Functions----------------------------------------------------//
-//------------------------------------------------------------------------//
 
 ?>
