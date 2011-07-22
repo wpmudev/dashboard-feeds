@@ -1,7 +1,10 @@
 === Dashboard Feeds ===
-Authors: Ivan Shaovchev, Andrew Billits (Incsub)
+Authors: Ivan Shaovchev, Andrew Billits, Andrey Shipilov (Incsub)
 
 == Changelog ==
+
+= 1.5.2 =
+* added feature for update of widgets when changed values of options in the file 'dashboard-feeds.php'
 
 = 1.5.1 =
 * Update plugin to overwrite the default feeds on all blogs on the network.
