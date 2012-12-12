@@ -1,7 +1,12 @@
 === Dashboard Feeds ===
-Authors: Ivan Shaovchev, Andrew Billits, Andrey Shipilov (Incsub)
+Authors: Paul Menard (Incsub)
 
 == Changelog ==
+
+= 2.0 = 
+* Added new Settings interface for configuring feeds. No more need to edit PHP code.
+* Extended functionality to allow any number of feed widgets to be shown on the Dashboard.
+* Works now for single WordPress as well as Multisite
 
 = 1.5.2 =
 * added feature for update of widgets when changed values of options in the file 'dashboard-feeds.php'
@@ -15,3 +20,5 @@ Authors: Ivan Shaovchev, Andrew Billits, Andrey Shipilov (Incsub)
 
 = 1.0.0 =
 * Initial Release
+
+63094-1354851732

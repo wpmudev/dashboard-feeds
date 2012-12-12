@@ -1,0 +1,107 @@
+# Translation of the WordPress plugin Dashboard Feeds 2.0-Beta1 by Paul Menard (Incsub).
+# Copyright (C) 2012 Paul Menard (Incsub)
+# This file is distributed under the same license as the Dashboard Feeds package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Dashboard Feeds 2.0-Beta1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/dashboard-feeds\n"
+"POT-Creation-Date: 2012-12-08 07:15-0600\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: dashboard-feeds.php:89 dashboard-feeds.php:90 dashboard-feeds.php:96
+msgctxt "page label"
+msgid "Dashboard Feeds"
+msgstr ""
+
+#: dashboard-feeds.php:97
+msgctxt "menu label"
+msgid "Dashboard Feeds"
+msgstr ""
+
+#: dashboard-feeds.php:114
+msgctxt "New Page Title"
+msgid "Dashboard Feeds"
+msgstr ""
+
+#: dashboard-feeds.php:182
+msgid "Primary Dashboard Widget"
+msgstr ""
+
+#: dashboard-feeds.php:188
+msgid ""
+"Checked - This will remove the \"configure\" link on the widget header.<br /"
+"> Unchecked - allow individual users to control this widget on their own "
+"Dashboards."
+msgstr ""
+
+#: dashboard-feeds.php:196 dashboard-feeds.php:233 dashboard-feeds.php:262
+#: dashboard-feeds.php:291
+msgid "Site URL:"
+msgstr ""
+
+#: dashboard-feeds.php:219
+msgid "Secondary Dashboard Widget"
+msgstr ""
+
+#: dashboard-feeds.php:225
+msgid ""
+"Checked - This will remove the \"configure\" link on the widget header.<br /"
+">Unchecked - allow individual users to control this widget on their own "
+"Dashboards."
+msgstr ""
+
+#: dashboard-feeds.php:247
+msgid "Extra Dashboard Widgets"
+msgstr ""
+
+#: dashboard-feeds.php:248
+msgid "<p>To remove a widget blank the RSS feed url and submit</p>"
+msgstr ""
+
+#: dashboard-feeds.php:277
+msgid "New Dashboard Widget"
+msgstr ""
+
+#: dashboard-feeds.php:278
+msgid "<p>Enter the new widget information below.</p>"
+msgstr ""
+
+#: dashboard-feeds.php:310
+msgid "Submit"
+msgstr ""
+
+#: dashboard-feeds.php:426
+#, php-format
+msgid "<strong>RSS Error</strong>: %s"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Dashboard Feeds"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/dashboard-feeds"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Customize the dashboard for every user in a flash with this straightforward "
+"dashboard feed replacement widget... no more WP development news or Matt's "
+"latest photo set :)"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Paul Menard (Incsub)"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org"
+msgstr ""
