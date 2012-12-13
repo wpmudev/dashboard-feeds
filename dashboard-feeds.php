@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
 Author: Paul Menard (Incsub)
 Author URI: http://premium.wpmudev.org
-Version: 2.0
+Version: 2.0.1
 WDP ID: 15
 License: GNU General Public License (Version 2 - GPLv2)
 
@@ -39,7 +39,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 	    }
 	    
 		function __construct() {
-			$this->_settings['VERSION'] = "2.0";
+			$this->_settings['VERSION'] = "2.0.1";
 			
 			add_action( 'init', 						array(&$this, 'init_proc') );			
 			add_action( 'admin_head', 					array(&$this, 'admin_head_proc') );
@@ -135,10 +135,11 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 							$df_settings 		= get_option('dashboard_widget_settings');						
 							$wp_widgets_current = get_option('dashboard_widget_options');
 							$df_widgets_current = get_option('wpmudev_df_widget_options');
-
+							if ((!$df_widgets_current) || (!is_array($df_widgets_current)))
+								$df_widgets_current = array();
+							
 							foreach($df_widgets as $widget_id => $widget_options) {
 								if (empty($widget_options['url'])) {
-									echo "delete [". $widget_id ."]<br />";
 									unset($df_widgets_current[$widget_id]);
 								} else {
 									// We update the WP dashboard widgets at the same time IF we are in force mode. May the force by with you. 
@@ -165,8 +166,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 				
 				<form id="dashboard-feeds-form" method="post" action="">
 					<?php 
-						$df_settings = get_option('dashboard_widget_settings');						
-					
+						$df_settings = get_option('dashboard_widget_settings');					
 						$df_widgets = get_option('wpmudev_df_widget_options');
 						if ((!$df_widgets) || (!is_array($df_widgets)))
 							$df_widgets = array();
@@ -310,7 +310,9 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		function add_dashboard_widgets() {
 			$widget_items = array();
 			$df_widgets_current = get_option('wpmudev_df_widget_options');
-			
+			if ((!$df_widgets_current) || (!is_array($df_widgets_current)))
+				$df_widgets_current = array();
+				
 			foreach($df_widgets_current as $widget_id => $widget_options) {
 				if (($widget_id == 'df-dashboard_primary') || ($widget_id == 'df-dashboard_secondary'))
 					continue;
@@ -322,7 +324,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		}
 		
 		function dashboard_primary_link_filter($link) {
-			$df_settings = get_option('dashboard_widget_settings');						
+			$df_settings = get_option('dashboard_widget_settings');
 			if (isset($df_settings['force-dashboard_primary'])) {
 				$df_widgets = get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_primary']['link'])) && (!empty($df_widgets['df-dashboard_primary']['link'])))
