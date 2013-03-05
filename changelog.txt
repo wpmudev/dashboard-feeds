@@ -3,6 +3,10 @@ Authors: Paul Menard (Incsub)
 
 == Changelog ==
 
+= 2.0.2 =
+* On Multisite corrected issue where Network controlled feeds were not properly being loaded for existing and new blogs.
+* On Multisite removed menu Settings. All Feeds are now controlled via Network only.
+
 = 2.0.1 =
 * Fixed warning from uninitialized extra feeds array http://premium.wpmudev.org/forums/topic/update-error-for-dashboard-feeds-plugin
 
@@ -23,5 +27,3 @@ Authors: Paul Menard (Incsub)
 
 = 1.0.0 =
 * Initial Release
-
-63094-1354851732

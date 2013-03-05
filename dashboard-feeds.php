@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
 Author: Paul Menard (Incsub)
 Author URI: http://premium.wpmudev.org
-Version: 2.0.1
+Version: 2.0.2
 WDP ID: 15
 License: GNU General Public License (Version 2 - GPLv2)
 
@@ -39,7 +39,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 	    }
 	    
 		function __construct() {
-			$this->_settings['VERSION'] = "2.0.1";
+			$this->_settings['VERSION'] = "2.0.2";
 			
 			add_action( 'init', 						array(&$this, 'init_proc') );			
 			add_action( 'admin_head', 					array(&$this, 'admin_head_proc') );
@@ -63,7 +63,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		function admin_head_proc() {
 			$js_commands = '';
 			
-			$df_settings = get_option('dashboard_widget_settings');						
+			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_primary'])) {
 				$js_commands .= "jQuery('div#dashboard_primary span.postbox-title-action').hide(); ";
 			}
@@ -85,15 +85,17 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		}
 		
 		function admin_menu_proc() {
-			if (is_network_admin()) {
-				$this->_pagehooks['dashboard-feeds'] = add_submenu_page('settings.php', 
-					_x("Dashboard Feeds", 'page label', 'dashboard-feeds'), 
-					_x("Dashboard Feeds", 'page label', 'dashboard-feeds'), 
-					'manage_network', 
-					'dashboard-feeds', 
-					array($this, 'network_settings_show_panel')
-				);
-			} else {
+			if (is_multisite()) {
+				if (is_network_admin()) {
+					$this->_pagehooks['dashboard-feeds'] = add_submenu_page('settings.php', 
+						_x("Dashboard Feeds", 'page label', 'dashboard-feeds'), 
+						_x("Dashboard Feeds", 'page label', 'dashboard-feeds'), 
+						'manage_network', 
+						'dashboard-feeds', 
+						array($this, 'network_settings_show_panel')
+					);
+				}				
+			} else if (!is_multisite()) {
 				$this->_pagehooks['dashboard-feeds'] = add_options_page( 
 					_x("Dashboard Feeds", 'page label', 'dashboard-feeds'),
 					_x("Dashboard Feeds", 'menu label', 'dashboard-feeds'),
@@ -117,8 +119,10 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 				<h2><?php _ex("Dashboard Feeds", "New Page Title", 'dashboard-feeds'); ?></h2>
 
 				<?php
+					//echo "_POST<pre>"; print_r($_POST); echo "</pre>"; 
 					if (isset($_POST['df_settings'])) {
-						update_option('dashboard_widget_settings', $_POST['df_settings']);						
+						//update_option('dashboard_widget_settings', $_POST['df_settings']);
+						$this->set_df_widget_settings($_POST['df_settings']);
 					}
 					
 					if ((isset($_POST['widget-rss'])) && (isset($_GET['page'])) && ($_GET['page'] == "dashboard-feeds")) {
@@ -132,9 +136,14 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 						}
 
 						if (count($df_widgets)) {
-							$df_settings 		= get_option('dashboard_widget_settings');						
+							$df_settings 		= $this->get_df_widget_settings(); // get_option('dashboard_widget_settings');
+							//echo "df_settings<pre>"; print_r($df_settings); echo "</pre>";
+							
 							$wp_widgets_current = get_option('dashboard_widget_options');
-							$df_widgets_current = get_option('wpmudev_df_widget_options');
+							//echo "wp_widgets_current<pre>"; print_r($wp_widgets_current); echo "</pre>";
+							//die();
+							
+							$df_widgets_current = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 							if ((!$df_widgets_current) || (!is_array($df_widgets_current)))
 								$df_widgets_current = array();
 							
@@ -156,18 +165,21 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 						    }
 
 							update_option('dashboard_widget_options', $wp_widgets_current);						
-							update_option('wpmudev_df_widget_options', $df_widgets_current);
-
+							//update_option('wpmudev_df_widget_options', $df_widgets_current);
+							
+							$this->set_df_feed_widgets_options($df_widgets_current);
+							
 						} else {
-							delete_option('wpmudev_df_widget_options');
+							//delete_option('wpmudev_df_widget_options');
+							$this->set_df_feed_widgets_options('');
 						}
 					}
 				?>
 				
 				<form id="dashboard-feeds-form" method="post" action="">
 					<?php 
-						$df_settings = get_option('dashboard_widget_settings');					
-						$df_widgets = get_option('wpmudev_df_widget_options');
+						$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');					
+						$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 						if ((!$df_widgets) || (!is_array($df_widgets)))
 							$df_widgets = array();
  					?>
@@ -309,7 +321,9 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		
 		function add_dashboard_widgets() {
 			$widget_items = array();
-			$df_widgets_current = get_option('wpmudev_df_widget_options');
+
+			$df_widgets_current = $this->get_df_feed_widgets_options();
+			
 			if ((!$df_widgets_current) || (!is_array($df_widgets_current)))
 				$df_widgets_current = array();
 				
@@ -323,28 +337,100 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			}
 		}
 		
-		function dashboard_primary_link_filter($link) {
-			$df_settings = get_option('dashboard_widget_settings');
-			if (isset($df_settings['force-dashboard_primary'])) {
+		function get_df_feed_widgets_options() {
+			if (is_multisite()) {
+				global $current_blog;
+			
+				if ($current_blog->site_id == $current_blog->blog_id) {
+					$df_widgets = get_blog_option($current_blog->site_id, 'wpmudev_df_widget_options');
+					if (!is_array($df_widgets)) {
+						$df_widgets = get_option('wpmudev_df_widget_options');
+					}
+				
+				} else {
+					$df_widgets = get_blog_option($current_blog->site_id, 'wpmudev_df_widget_options');				
+				}
+			} else {
 				$df_widgets = get_option('wpmudev_df_widget_options');
+			}
+			
+			return $df_widgets;
+		}
+
+		function set_df_feed_widgets_options($df_widgets) {
+			if (is_multisite()) {
+				global $current_blog;
+			
+				if (is_array($df_widgets))
+					update_blog_option($current_blog->site_id, 'wpmudev_df_widget_options', $df_widgets);
+				else
+					delete_blog_option($current_blog->site_id, 'wpmudev_df_widget_options');
+			} else {
+				if (is_array($df_widgets))
+					update_option('wpmudev_df_widget_options', $df_widgets);
+				else
+					delete_option('wpmudev_df_widget_options');				
+			}
+		}
+		
+		function get_df_widget_settings() {
+			if (is_multisite()) {
+				global $current_blog;
+			
+				if ($current_blog->site_id == $current_blog->blog_id) {
+					$df_settings = get_blog_option($current_blog->site_id, 'dashboard_widget_settings');
+					if (!is_array($df_settings)) {
+						$df_settings = get_option('dashboard_widget_settings');
+					}
+				
+				} else {
+					$df_settings = get_blog_option($current_blog->site_id, 'dashboard_widget_settings');				
+				}
+			} else {
+				$df_settings = get_option('dashboard_widget_settings');
+			}
+			return $df_settings;
+		}
+		
+		function set_df_widget_settings($df_settings) {
+			if (is_multisite()) {
+				global $current_blog;
+			
+				if (is_array($df_settings))
+					update_blog_option($current_blog->site_id, 'dashboard_widget_settings', $df_settings);
+				else
+					delete_blog_option($current_blog->site_id, 'dashboard_widget_settings');
+			} else {
+				if (is_array($df_settings))
+					update_option('dashboard_widget_settings', $df_settings);
+				else
+					delete_option('dashboard_widget_settings');				
+			}
+		}
+		
+		
+		function dashboard_primary_link_filter($link) {
+			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');
+			if (isset($df_settings['force-dashboard_primary'])) {
+				$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_primary']['link'])) && (!empty($df_widgets['df-dashboard_primary']['link'])))
 					return $df_widgets['df-dashboard_primary']['link'];
 			}
 			return $link;
 		}
 		function dashboard_primary_feed_filter($feed) {
-			$df_settings = get_option('dashboard_widget_settings');						
+			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_primary'])) {
-				$df_widgets = get_option('wpmudev_df_widget_options');
+				$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_primary']['url'])) && (!empty($df_widgets['df-dashboard_primary']['url'])))
 					return $df_widgets['df-dashboard_primary']['url'];
 			}
 			return $feed;
 		}
 		function dashboard_primary_title_filter($title) {
-			$df_settings = get_option('dashboard_widget_settings');						
+			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_primary'])) {
-				$df_widgets = get_option('wpmudev_df_widget_options');
+				$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_primary']['title'])) && (!empty($df_widgets['df-dashboard_primary']['title'])))
 					return $df_widgets['df-dashboard_primary']['title'];
 			}
@@ -352,27 +438,27 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		}
 
 		function dashboard_secondary_link_filter($link) {
-			$df_settings = get_option('dashboard_widget_settings');						
+			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_secondary'])) {
-				$df_widgets = get_option('wpmudev_df_widget_options');
+				$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_secondary']['link'])) && (!empty($df_widgets['df-dashboard_secondary']['link'])))
 					return $df_widgets['df-dashboard_secondary']['link'];
 			} 
 			return $link;
 		}
 		function dashboard_secondary_feed_filter($feed) {
-			$df_settings = get_option('dashboard_widget_settings');						
+			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_secondary'])) {
-				$df_widgets = get_option('wpmudev_df_widget_options');
+				$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_secondary']['url'])) && (!empty($df_widgets['df-dashboard_secondary']['url'])))
 					return $df_widgets['df-dashboard_secondary']['url'];
 			}
 			return $feed;			
 		}
 		function dashboard_secondary_title_filter($title) {
-			$df_settings = get_option('dashboard_widget_settings');						
+			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_secondary'])) {
-				$df_widgets = get_option('wpmudev_df_widget_options');
+				$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_secondary']['title'])) && (!empty($df_widgets['df-dashboard_secondary']['title'])))
 					return $df_widgets['df-dashboard_secondary']['title'];
 			}
