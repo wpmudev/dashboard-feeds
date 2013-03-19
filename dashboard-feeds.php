@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
 Author: Paul Menard (Incsub)
 Author URI: http://premium.wpmudev.org
-Version: 2.0.2
+Version: 2.0.3
 WDP ID: 15
 License: GNU General Public License (Version 2 - GPLv2)
 
@@ -41,21 +41,21 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		function __construct() {
 			$this->_settings['VERSION'] = "2.0.2";
 			
-			add_action( 'init', 						array(&$this, 'init_proc') );			
-			add_action( 'admin_head', 					array(&$this, 'admin_head_proc') );
+			//add_action( 'init', 							array(&$this, 'init_proc') );			
+			//add_action( 'admin_init', 					array(&$this, 'admin_init_proc') );
+			add_filter( 'option_dashboard_widget_options', 	array(&$this, 'option_dashboard_widget_options_filter') );		
+			add_action( 'admin_head', 						array(&$this, 'admin_head_proc'), 1 );
+			add_action( 'admin_menu', 						array(&$this, 'admin_menu_proc'), 1 );
+			add_action( 'network_admin_menu', 				array(&$this, 'admin_menu_proc'), 1 );
+			add_action( 'wp_dashboard_setup', 				array($this, 'add_dashboard_widgets'), 99 );
 			
-			add_action( 'admin_menu', 					array(&$this, 'admin_menu_proc') );			
-			add_action( 'network_admin_menu', 			array(&$this, 'admin_menu_proc') );			
-			
-			add_action( 'wp_dashboard_setup', 			array($this, 'add_dashboard_widgets'), 99 );
-			
-			add_filter( 'dashboard_primary_link', 		array($this, 'dashboard_primary_link_filter'), 99 );
-			add_filter( 'dashboard_primary_feed', 		array($this, 'dashboard_primary_feed_filter'), 99 );
-			add_filter( 'dashboard_primary_title', 		array($this, 'dashboard_primary_title_filter'), 99 );
+			//add_filter( 'dashboard_primary_link', 		array($this, 'dashboard_primary_link_filter'), 99 );
+			//add_filter( 'dashboard_primary_feed', 		array($this, 'dashboard_primary_feed_filter'), 99 );
+			//add_filter( 'dashboard_primary_title', 		array($this, 'dashboard_primary_title_filter'), 99 );
 
-			add_filter( 'dashboard_primary_link', 		array($this, 'dashboard_secondary_link_filter'), 99 );
-			add_filter( 'dashboard_secondary_feed', 	array($this, 'dashboard_secondary_feed_filter'), 99 );
-			add_filter( 'dashboard_secondary_title',	array($this, 'dashboard_secondary_title_filter'), 99 );
+			//add_filter( 'dashboard_primary_link', 		array($this, 'dashboard_secondary_link_filter'), 99 );
+			//add_filter( 'dashboard_secondary_feed', 		array($this, 'dashboard_secondary_feed_filter'), 99 );
+			//add_filter( 'dashboard_secondary_title',		array($this, 'dashboard_secondary_title_filter'), 99 );
 			
 	        load_plugin_textdomain( 'dashboard-feeds', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		}
@@ -63,7 +63,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		function admin_head_proc() {
 			$js_commands = '';
 			
-			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
+			$df_settings = $this->get_df_widget_settings(); 
 			if (isset($df_settings['force-dashboard_primary'])) {
 				$js_commands .= "jQuery('div#dashboard_primary span.postbox-title-action').hide(); ";
 			}
@@ -82,6 +82,46 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		}
 		
 		function init_proc() {
+		}
+		
+		function admin_init_proc() {
+			
+		}
+		
+		function option_dashboard_widget_options_filter($widget_options) {
+		
+			if (!is_admin()) return $widget_options;
+			if (is_network_admin()) return $widget_options;
+			
+			$df_settings = $this->get_df_widget_settings();
+			$df_widgets = $this->get_df_feed_widgets_options();
+			
+			// Enforce Primary Widget rules. 
+			if (isset($widget_options['dashboard_primary'])) {
+				if ((isset($df_settings['force-dashboard_primary'])) && ($df_settings['force-dashboard_primary'] == "on")) {
+					if (isset($df_widgets['df-dashboard_primary'])) {
+						$widget_options['dashboard_primary'] = $df_widgets['df-dashboard_primary'];
+					}
+				}
+			} else {				
+				if (isset($df_widget['df-dashboard_primary'])) {
+					$widget_options['dashboard_primary'] = $df_widget['df-dashboard_primary'];
+				}
+			}
+
+			// Enforce Seconday Widget rules. 
+			if (isset($widget_options['dashboard_secondary'])) {
+				if ((isset($df_settings['force-dashboard_secondary'])) && ($df_settings['force-dashboard_secondary'] == "on")) {
+					if (isset($df_widgets['df-dashboard_secondary'])) {
+						$widget_options['dashboard_secondary'] = $df_widgets['df-dashboard_secondary'];
+					}
+				}
+			} else {				
+				if (isset($df_widget['df-dashboard_secondary'])) {
+					$widget_options['dashboard_secondary'] = $df_widget['df-dashboard_secondary'];
+				}
+			}
+			return $widget_options;
 		}
 		
 		function admin_menu_proc() {
@@ -340,7 +380,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		function get_df_feed_widgets_options() {
 			if (is_multisite()) {
 				global $current_blog;
-			
+				//echo "current_blog<pre>"; print_r($current_blog); echo "</pre>";
+				
 				if ($current_blog->site_id == $current_blog->blog_id) {
 					$df_widgets = get_blog_option($current_blog->site_id, 'wpmudev_df_widget_options');
 					if (!is_array($df_widgets)) {
@@ -409,6 +450,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		}
 		
 		
+/*
 		function dashboard_primary_link_filter($link) {
 			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');
 			if (isset($df_settings['force-dashboard_primary'])) {
@@ -418,8 +460,12 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			}
 			return $link;
 		}
+*/
+/*
 		function dashboard_primary_feed_filter($feed) {
 			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
+			echo "df_settings<pre>"; print_r($df_settings); echo "</pre>";
+			die();
 			if (isset($df_settings['force-dashboard_primary'])) {
 				$df_widgets = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
 				if ((isset($df_widgets['df-dashboard_primary']['url'])) && (!empty($df_widgets['df-dashboard_primary']['url'])))
@@ -427,6 +473,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			}
 			return $feed;
 		}
+*/
+/*
 		function dashboard_primary_title_filter($title) {
 			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_primary'])) {
@@ -436,7 +484,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			}
 			return $title;
 		}
-
+*/
+/*
 		function dashboard_secondary_link_filter($link) {
 			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_secondary'])) {
@@ -446,6 +495,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			} 
 			return $link;
 		}
+*/
+/*
 		function dashboard_secondary_feed_filter($feed) {
 			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_secondary'])) {
@@ -455,6 +506,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			}
 			return $feed;			
 		}
+*/
+/*
 		function dashboard_secondary_title_filter($title) {
 			$df_settings = $this->get_df_widget_settings(); //get_option('dashboard_widget_settings');						
 			if (isset($df_settings['force-dashboard_secondary'])) {
@@ -464,6 +517,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			}
 			return $title;
 		}
+*/
 	}
 }
 

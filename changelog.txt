@@ -3,6 +3,9 @@ Authors: Paul Menard (Incsub)
 
 == Changelog ==
 
+= 2.0.3 =
+* Updated logic to enforce override of default Primary and Secondary feed widgets for all sites. Prior logic only worked for new sites. 
+
 = 2.0.2 =
 * On Multisite corrected issue where Network controlled feeds were not properly being loaded for existing and new blogs.
 * On Multisite removed menu Settings. All Feeds are now controlled via Network only.
