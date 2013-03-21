@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
 Author: Paul Menard (Incsub)
 Author URI: http://premium.wpmudev.org
-Version: 2.0.3
+Version: 2.0.4
 WDP ID: 15
 License: GNU General Public License (Version 2 - GPLv2)
 
@@ -39,15 +39,15 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 	    }
 	    
 		function __construct() {
-			$this->_settings['VERSION'] = "2.0.2";
+			$this->_settings['VERSION'] = "2.0.4";
 			
 			//add_action( 'init', 							array(&$this, 'init_proc') );			
 			//add_action( 'admin_init', 					array(&$this, 'admin_init_proc') );
 			add_filter( 'option_dashboard_widget_options', 	array(&$this, 'option_dashboard_widget_options_filter') );		
-			add_action( 'admin_head', 						array(&$this, 'admin_head_proc'), 1 );
+			add_action( 'admin_footer', 					array(&$this, 'admin_footer_proc'), 1 );
 			add_action( 'admin_menu', 						array(&$this, 'admin_menu_proc'), 1 );
 			add_action( 'network_admin_menu', 				array(&$this, 'admin_menu_proc'), 1 );
-			add_action( 'wp_dashboard_setup', 				array($this, 'add_dashboard_widgets'), 99 );
+			add_action( 'wp_dashboard_setup', 				array(&$this, 'add_dashboard_widgets'), 99 );
 			
 			//add_filter( 'dashboard_primary_link', 		array($this, 'dashboard_primary_link_filter'), 99 );
 			//add_filter( 'dashboard_primary_feed', 		array($this, 'dashboard_primary_feed_filter'), 99 );
@@ -60,7 +60,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 	        load_plugin_textdomain( 'dashboard-feeds', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		}
 
-		function admin_head_proc() {
+		function admin_footer_proc() {
 			$js_commands = '';
 			
 			$df_settings = $this->get_df_widget_settings(); 
@@ -90,11 +90,16 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		
 		function option_dashboard_widget_options_filter($widget_options) {
 		
+			//echo "widget_options<pre>"; print_r($widget_options); echo "</pre>";
+			
 			if (!is_admin()) return $widget_options;
 			if (is_network_admin()) return $widget_options;
 			
 			$df_settings = $this->get_df_widget_settings();
+			//echo "df_settings<pre>"; print_r($df_settings); echo "</pre>";
+			
 			$df_widgets = $this->get_df_feed_widgets_options();
+			//echo "df_widgets<pre>"; print_r($df_widgets); echo "</pre>";
 			
 			// Enforce Primary Widget rules. 
 			if (isset($widget_options['dashboard_primary'])) {
@@ -121,6 +126,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 					$widget_options['dashboard_secondary'] = $df_widget['df-dashboard_secondary'];
 				}
 			}
+			//echo "widget_options<pre>"; print_r($widget_options); echo "</pre>";
+			//die();
 			return $widget_options;
 		}
 		
@@ -159,9 +166,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 				<h2><?php _ex("Dashboard Feeds", "New Page Title", 'dashboard-feeds'); ?></h2>
 
 				<?php
-					//echo "_POST<pre>"; print_r($_POST); echo "</pre>"; 
 					if (isset($_POST['df_settings'])) {
-						//update_option('dashboard_widget_settings', $_POST['df_settings']);
 						$this->set_df_widget_settings($_POST['df_settings']);
 					}
 					
@@ -171,19 +176,27 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 						
 						foreach($_POST['widget-rss'] as $widget_id => $widget_options) {
 							if (substr($widget_id, 0, 3) == "df-") {
+								
+								if (!isset($widget_options['items']))
+									$widget_options['items'] = '5';
+								
+								if (!isset($widget_options['show_summary']))
+									$widget_options['show_summary'] = '';
+								if (!isset($widget_options['show_author']))
+									$widget_options['show_author'] = '';
+								if (!isset($widget_options['show_date']))
+									$widget_options['show_date'] = '';
+
 								$df_widgets[$widget_id] = $widget_options;
 							}
 						}
-
+						//echo "df_widgets<pre>"; print_r($df_widgets); echo "</pre>";
+						
 						if (count($df_widgets)) {
-							$df_settings 		= $this->get_df_widget_settings(); // get_option('dashboard_widget_settings');
-							//echo "df_settings<pre>"; print_r($df_settings); echo "</pre>";
-							
+							$df_settings 		= $this->get_df_widget_settings();
 							$wp_widgets_current = get_option('dashboard_widget_options');
-							//echo "wp_widgets_current<pre>"; print_r($wp_widgets_current); echo "</pre>";
-							//die();
 							
-							$df_widgets_current = $this->get_df_feed_widgets_options(); //get_option('wpmudev_df_widget_options');
+							$df_widgets_current = $this->get_df_feed_widgets_options();
 							if ((!$df_widgets_current) || (!is_array($df_widgets_current)))
 								$df_widgets_current = array();
 							
@@ -201,6 +214,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 									$df_widgets_current[$widget_id] = $widget_options;
 								} 
 								$cache_key = 'dash_' . md5( $widget_id );
+								//echo "cache_key=[". $cache_key ."]<br />";
 					            delete_transient( $cache_key );					            
 						    }
 
