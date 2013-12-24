@@ -1,82 +1,104 @@
-# Translation of the WordPress plugin Dashboard Feeds 2.0-Beta1 by Paul Menard (Incsub).
-# Copyright (C) 2012 Paul Menard (Incsub)
+# Translation of the WordPress plugin Dashboard Feeds 2.0.4.1-Beta1 by Paul Menard (Incsub).
+# Copyright (C) 2013 Paul Menard (Incsub)
 # This file is distributed under the same license as the Dashboard Feeds package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Dashboard Feeds 2.0-Beta1\n"
+"Project-Id-Version: Dashboard Feeds 2.0.4.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/dashboard-feeds\n"
-"POT-Creation-Date: 2012-12-08 07:15-0600\n"
-"PO-Revision-Date: 2012-12-08 08:17-0500\n"
+"POT-Creation-Date: 2013-12-19 09:44-0600\n"
+"PO-Revision-Date: 2013-12-19 10:45-0500\n"
 "Last-Translator: Paul Menard <paul@codehooligans.com>\n"
-"Language-Team: WPMU DEV <paul@incsub.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 
-#: dashboard-feeds.php:89
-#: dashboard-feeds.php:90
-#: dashboard-feeds.php:96
+#: dashboard-feeds.php:147
+#: dashboard-feeds.php:148
+#: dashboard-feeds.php:156
 msgctxt "page label"
 msgid "Dashboard Feeds"
 msgstr ""
 
-#: dashboard-feeds.php:97
+#: dashboard-feeds.php:157
 msgctxt "menu label"
 msgid "Dashboard Feeds"
 msgstr ""
 
-#: dashboard-feeds.php:114
+#: dashboard-feeds.php:175
 msgctxt "New Page Title"
 msgid "Dashboard Feeds"
 msgstr ""
 
-#: dashboard-feeds.php:182
+#: dashboard-feeds.php:273
 msgid "Primary Dashboard Widget"
 msgstr ""
 
-#: dashboard-feeds.php:188
+#: dashboard-feeds.php:279
 msgid "Checked - This will remove the \"configure\" link on the widget header.<br /> Unchecked - allow individual users to control this widget on their own Dashboards."
 msgstr ""
 
-#: dashboard-feeds.php:196
-#: dashboard-feeds.php:233
-#: dashboard-feeds.php:262
-#: dashboard-feeds.php:291
-msgid "Site URL:"
-msgstr ""
-
-#: dashboard-feeds.php:219
-msgid "Secondary Dashboard Widget"
-msgstr ""
-
-#: dashboard-feeds.php:225
-msgid "Checked - This will remove the \"configure\" link on the widget header.<br />Unchecked - allow individual users to control this widget on their own Dashboards."
-msgstr ""
-
-#: dashboard-feeds.php:247
-msgid "Extra Dashboard Widgets"
-msgstr ""
-
-#: dashboard-feeds.php:248
-msgid "<p>To remove a widget blank the RSS feed url and submit</p>"
-msgstr ""
-
-#: dashboard-feeds.php:277
-msgid "New Dashboard Widget"
-msgstr ""
-
-#: dashboard-feeds.php:278
-msgid "<p>Enter the new widget information below.</p>"
+#: dashboard-feeds.php:287
+#: dashboard-feeds.php:324
+#: dashboard-feeds.php:374
+#: dashboard-feeds.php:414
+msgid "Enter Site URL here:"
 msgstr ""
 
 #: dashboard-feeds.php:310
+msgid "Secondary Dashboard Widget"
+msgstr ""
+
+#: dashboard-feeds.php:316
+msgid "Checked - This will remove the \"configure\" link on the widget header.<br />Unchecked - allow individual users to control this widget on their own Dashboards."
+msgstr ""
+
+#: dashboard-feeds.php:341
+msgid "WordPress Primary & Secondary Feed Widgets"
+msgstr ""
+
+#: dashboard-feeds.php:343
+msgid "Due to changes in WordPress 3.8, the Dashboard Feeds plugin can no longer override the options defined for the WordPress Primary & Secondary RSS Widgets. If you have previously defined Primary and Secondary feeds they will be automatically converted to Extra feed configurations below. You can however chose to hide the default feed widget from WordPress by setting the checkbox below."
+msgstr ""
+
+#: dashboard-feeds.php:344
+msgid "Set to hide default WordPress Feed box."
+msgstr ""
+
+#: dashboard-feeds.php:352
+msgid "Extra Dashboard Widgets"
+msgstr ""
+
+#: dashboard-feeds.php:353
+msgid "<p>To remove a widget blank the RSS feed url and submit</p>"
+msgstr ""
+
+#: dashboard-feeds.php:380
+#: dashboard-feeds.php:419
+msgid "Checked - Show this feed on Site Dashboard"
+msgstr ""
+
+#: dashboard-feeds.php:382
+#: dashboard-feeds.php:421
+msgid "Checked - Show this feed on Network Dashboard"
+msgstr ""
+
+#: dashboard-feeds.php:396
+msgid "New Dashboard Widget"
+msgstr ""
+
+#: dashboard-feeds.php:397
+msgid "<p>Enter the new widget information below.</p>"
+msgstr ""
+
+#: dashboard-feeds.php:431
 msgid "Submit"
 msgstr ""
 
-#: dashboard-feeds.php:426
+#: dashboard-feeds.php:613
 #, php-format
 msgid "<strong>RSS Error</strong>: %s"
 msgstr ""

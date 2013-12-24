@@ -3,6 +3,13 @@ Authors: Paul Menard (Incsub)
 
 == Changelog ==
 
+= 2.0.4.1 =
+2013-12-14
+* Converted Primary and Secondary Feed configurations to extra feed configurations for WP 3.8
+* Added new settings checkbox to hide new WP 3.8 combined Primary and Secondary feed widget. 
+* Added new settings checkboxes on feed configurations to control showinging feed on Site and/or Network Dashboards
+* Updated code for PHP 5.4.x Strict Standards notices
+
 = 2.0.4 =
 2013-03-21
 * Bug fix for settings checkboxes not able to unset. 
