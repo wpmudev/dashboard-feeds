@@ -1025,13 +1025,13 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds_List_Table')) {
 					echo __('Show on', 'dashboard-feeds'). ': ';
 					$show_on_str = '';
 					if (isset($item['show-on']['site'])) {
-						if ($item['show-on']['site'] == on) {
+						if ($item['show-on']['site'] == 'on') {
 							if (!empty($show_on_str)) $show_on_str .= ', ';
 							$show_on_str .=  __('Site', 'dashboard-feeds');
 						}
 					}
 					if (isset($item['show-on']['network'])) {
-						if ($item['show-on']['network'] == on) {
+						if ($item['show-on']['network'] == 'on') {
 							if (!empty($show_on_str)) $show_on_str .= ', ';
 							$show_on_str .= __('Network', 'dashboard-feeds');
 						}
