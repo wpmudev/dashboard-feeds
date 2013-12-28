@@ -1,14 +1,14 @@
-# Translation of the WordPress plugin Dashboard Feeds 2.0.4.1-Beta1 by Paul Menard (Incsub).
+# Translation of the WordPress plugin Dashboard Feeds 2.0.4.2 by Paul Menard (Incsub).
 # Copyright (C) 2013 Paul Menard (Incsub)
 # This file is distributed under the same license as the Dashboard Feeds package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Dashboard Feeds 2.0.4.1\n"
+"Project-Id-Version: Dashboard Feeds 2.0.4.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/dashboard-feeds\n"
-"POT-Creation-Date: 2013-12-19 09:44-0600\n"
-"PO-Revision-Date: 2013-12-19 10:45-0500\n"
+"POT-Creation-Date: 2013-12-28 09:37-0600\n"
+"PO-Revision-Date: 2013-12-28 10:38-0500\n"
 "Last-Translator: Paul Menard <paul@codehooligans.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,89 +16,201 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 
-#: dashboard-feeds.php:147
-#: dashboard-feeds.php:148
-#: dashboard-feeds.php:156
+#: dashboard-feeds.php:207
+#: dashboard-feeds.php:208
+#: dashboard-feeds.php:216
 msgctxt "page label"
 msgid "Dashboard Feeds"
 msgstr ""
 
-#: dashboard-feeds.php:157
+#: dashboard-feeds.php:217
 msgctxt "menu label"
 msgid "Dashboard Feeds"
 msgstr ""
 
-#: dashboard-feeds.php:175
+#: dashboard-feeds.php:467
+msgid "The Feed item has been added."
+msgstr ""
+
+#: dashboard-feeds.php:468
+msgid "The Feed item has been updated."
+msgstr ""
+
+#: dashboard-feeds.php:469
+msgid "The Feed item has been deleted."
+msgstr ""
+
+#: dashboard-feeds.php:470
+msgid "Settings have been update."
+msgstr ""
+
+#: dashboard-feeds.php:490
+msgid "per Page"
+msgstr ""
+
+#: dashboard-feeds.php:504
+msgctxt "New Page Title"
+msgid "Dashboard Feed General Settings"
+msgstr ""
+
+#: dashboard-feeds.php:515
+msgctxt "New Page Title"
+msgid "Add New Dashboard Feed"
+msgstr ""
+
+#: dashboard-feeds.php:530
+msgctxt "New Page Title"
+msgid "Edit Dashboard Feed"
+msgstr ""
+
+#: dashboard-feeds.php:548
 msgctxt "New Page Title"
 msgid "Dashboard Feeds"
 msgstr ""
 
-#: dashboard-feeds.php:273
-msgid "Primary Dashboard Widget"
+#: dashboard-feeds.php:563
+msgid "General Settings"
 msgstr ""
 
-#: dashboard-feeds.php:279
-msgid "Checked - This will remove the \"configure\" link on the widget header.<br /> Unchecked - allow individual users to control this widget on their own Dashboards."
-msgstr ""
-
-#: dashboard-feeds.php:287
-#: dashboard-feeds.php:324
-#: dashboard-feeds.php:374
-#: dashboard-feeds.php:414
-msgid "Enter Site URL here:"
-msgstr ""
-
-#: dashboard-feeds.php:310
-msgid "Secondary Dashboard Widget"
-msgstr ""
-
-#: dashboard-feeds.php:316
-msgid "Checked - This will remove the \"configure\" link on the widget header.<br />Unchecked - allow individual users to control this widget on their own Dashboards."
-msgstr ""
-
-#: dashboard-feeds.php:341
-msgid "WordPress Primary & Secondary Feed Widgets"
-msgstr ""
-
-#: dashboard-feeds.php:343
-msgid "Due to changes in WordPress 3.8, the Dashboard Feeds plugin can no longer override the options defined for the WordPress Primary & Secondary RSS Widgets. If you have previously defined Primary and Secondary feeds they will be automatically converted to Extra feed configurations below. You can however chose to hide the default feed widget from WordPress by setting the checkbox below."
-msgstr ""
-
-#: dashboard-feeds.php:344
-msgid "Set to hide default WordPress Feed box."
-msgstr ""
-
-#: dashboard-feeds.php:352
-msgid "Extra Dashboard Widgets"
-msgstr ""
-
-#: dashboard-feeds.php:353
-msgid "<p>To remove a widget blank the RSS feed url and submit</p>"
-msgstr ""
-
-#: dashboard-feeds.php:380
-#: dashboard-feeds.php:419
-msgid "Checked - Show this feed on Site Dashboard"
-msgstr ""
-
-#: dashboard-feeds.php:382
-#: dashboard-feeds.php:421
-msgid "Checked - Show this feed on Network Dashboard"
-msgstr ""
-
-#: dashboard-feeds.php:396
-msgid "New Dashboard Widget"
-msgstr ""
-
-#: dashboard-feeds.php:397
-msgid "<p>Enter the new widget information below.</p>"
-msgstr ""
-
-#: dashboard-feeds.php:431
+#: dashboard-feeds.php:591
+#: dashboard-feeds.php:744
 msgid "Submit"
 msgstr ""
 
-#: dashboard-feeds.php:613
+#: dashboard-feeds.php:592
+#: dashboard-feeds.php:745
+msgid "Cancel"
+msgstr ""
+
+#: dashboard-feeds.php:664
+msgid "Checked - This will remove the \"configure\" link on the widget header.(Recommended)<br />Unchecked - allow individual users to control this widget on their own Dashboards. When the feed is saved here again it will replace the custom settings."
+msgstr ""
+
+#: dashboard-feeds.php:682
+msgid "Give the feed a title (optional):"
+msgstr ""
+
+#: dashboard-feeds.php:686
+msgid "Enter Site URL:"
+msgstr ""
+
+#: dashboard-feeds.php:691
+msgid "Enter the RSS feed URL:"
+msgstr ""
+
+#: dashboard-feeds.php:701
+msgid "How many feed items would you like to display?"
+msgstr ""
+
+#: dashboard-feeds.php:707
+msgid "Display item full content? Unchecked - Will show only excerpt."
+msgstr ""
+
+#: dashboard-feeds.php:712
+msgid "Display item author if available?"
+msgstr ""
+
+#: dashboard-feeds.php:717
+msgid "Display item date?"
+msgstr ""
+
+#: dashboard-feeds.php:719
+msgid " You can now control the visibility of the Feed widget on the Dashboard. Unchecked - Hide the feed widget."
+msgstr ""
+
+#: dashboard-feeds.php:721
+msgid "Checked - Show this feed on Site Dashboard."
+msgstr ""
+
+#: dashboard-feeds.php:724
+msgid "Checked - Show this feed on Network Dashboard."
+msgstr ""
+
+#: dashboard-feeds.php:733
+msgid "WordPress Primary & Secondary Feed Widgets"
+msgstr ""
+
+#: dashboard-feeds.php:735
+msgid "WordPress 3.8 introduced some changes in the handling of the Dashboard Primary and Secondary Feed Widgets. Prior to WordPress 3.8 these were two separate widgets. In WordPress 3.8 these are now combined into a single widget. You can set the checkbox below to hide this combined widget from view. If you had previously defined Primary and Secondary feeds in this plugin, they will be automatically converted to individual widget items on your Dashboard."
+msgstr ""
+
+#: dashboard-feeds.php:738
+msgid "Check - Hide Combined Primary and Secondary Dashboard Feed Widget on Site."
+msgstr ""
+
+#: dashboard-feeds.php:740
+msgid "Check - Hide Combined Primary and Secondary Dashboard Feed Widget on Network."
+msgstr ""
+
+#: dashboard-feeds.php:939
+msgid "Title"
+msgstr ""
+
+#: dashboard-feeds.php:941
+msgid "Feed URL"
+msgstr ""
+
+#: dashboard-feeds.php:942
+msgid "Site URL"
+msgstr ""
+
+#: dashboard-feeds.php:943
+msgid "Meta"
+msgstr ""
+
+#: dashboard-feeds.php:973
+msgid "Edit"
+msgstr ""
+
+#: dashboard-feeds.php:978
+msgid "Delete"
+msgstr ""
+
+#: dashboard-feeds.php:1001
+msgid "Count"
+msgstr ""
+
+#: dashboard-feeds.php:1006
+msgid "Summary"
+msgstr ""
+
+#: dashboard-feeds.php:1007
+#: dashboard-feeds.php:1013
+#: dashboard-feeds.php:1019
+msgid "Yes"
+msgstr ""
+
+#: dashboard-feeds.php:1007
+#: dashboard-feeds.php:1013
+#: dashboard-feeds.php:1019
+msgid "No"
+msgstr ""
+
+#: dashboard-feeds.php:1012
+msgid "Author"
+msgstr ""
+
+#: dashboard-feeds.php:1018
+msgid "Date"
+msgstr ""
+
+#: dashboard-feeds.php:1025
+msgid "Show on"
+msgstr ""
+
+#: dashboard-feeds.php:1030
+msgid "Site"
+msgstr ""
+
+#: dashboard-feeds.php:1036
+msgid "Network"
+msgstr ""
+
+#: dashboard-feeds.php:1039
+msgid "None"
+msgstr ""
+
+#: dashboard-feeds.php:1122
 #, php-format
 msgid "<strong>RSS Error</strong>: %s"
 msgstr ""

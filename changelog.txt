@@ -3,6 +3,12 @@ Authors: Paul Menard (Incsub)
 
 == Changelog ==
 
+= 2.0.4.2 =
+2013-12-28
+* Corrected issue with conversion of feed configurations for WordPress 3.8. 
+* Better compatability for WordPress 3.7.1 and lower
+* Changed UI screen to show feed items in a standard list table instead of multiple sets of forms. 
+
 = 2.0.4.1 =
 2013-12-14
 * Converted Primary and Secondary Feed configurations to extra feed configurations for WP 3.8
