@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
 Author: Paul Menard (Incsub)
 Author URI: http://premium.wpmudev.org
-Version: 2.0.4.2
+Version: 2.0.4.3
 WDP ID: 15
 License: GNU General Public License (Version 2 - GPLv2)
 
@@ -35,7 +35,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		var $wpmudev_dashboard_feeds_list_table;
 		
 		function __construct() {
-			$this->_settings['VERSION'] = "2.0.4.2";
+			$this->_settings['VERSION'] = "2.0.4.3";
 			
 			// Support for WPMU DEV Dashboard plugin
 			global $wpmudev_notices;
@@ -1088,13 +1088,13 @@ if (!class_exists('WPMUDEV_Dashboard_Feed_Widget')) {
 		var $widget_id;
 		var $widget_options;
 		
-		function WPMUDEV_Dashboard_Feed_Widget() {
-	        $this->__construct();
-	    }
-	    
 		function __construct() {
 		}
 		
+		function WPMUDEV_Dashboard_Feed_Widget() {
+	        $this->__construct();
+	    }
+	    		
 		function init($options_set='', $options=array()) {
 			if (empty($options_set)) return;
 			if (empty($options)) return;
