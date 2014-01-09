@@ -3,6 +3,10 @@ Authors: Paul Menard (Incsub)
 
 == Changelog ==
 
+= 2.0.4.4 =
+2014-01-09
+* Cleanup some PHP notices from uninitialized variables.
+
 = 2.0.4.3 =
 2013-12-28
 * Updated class WPMUDEV_Dashboard_Feed_Widget code for PHP 5.4.x Strict Standards notices.
@@ -10,7 +14,7 @@ Authors: Paul Menard (Incsub)
 = 2.0.4.2 =
 2013-12-28
 * Corrected issue with conversion of feed configurations for WordPress 3.8. 
-* Better compatability for WordPress 3.7.1 and lower
+* Better compatibility for WordPress 3.7.1 and lower
 * Changed UI screen to show feed items in a standard list table instead of multiple sets of forms. 
 
 = 2.0.4.1 =

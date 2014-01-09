@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
 Author: Paul Menard (Incsub)
 Author URI: http://premium.wpmudev.org
-Version: 2.0.4.3
+Version: 2.0.4.4
 WDP ID: 15
 License: GNU General Public License (Version 2 - GPLv2)
 
@@ -35,7 +35,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		var $wpmudev_dashboard_feeds_list_table;
 		
 		function __construct() {
-			$this->_settings['VERSION'] = "2.0.4.3";
+			$this->_settings['VERSION'] = "2.0.4.4";
 			
 			// Support for WPMU DEV Dashboard plugin
 			global $wpmudev_notices;
@@ -210,6 +210,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 						'dashboard-feeds', 
 						array($this, 'settings_show_panel')
 					);
+					add_action('load-'. $this->_pagehooks['dashboard-feeds'], 		array(&$this, 'settings_panel_on_load'));
 				}				
 			} else if (!is_multisite()) {
 				$this->_pagehooks['dashboard-feeds'] = add_options_page( 
@@ -219,8 +220,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 					'dashboard-feeds', 
 					array($this, 'settings_show_panel')
 				);
+				add_action('load-'. $this->_pagehooks['dashboard-feeds'], 		array(&$this, 'settings_panel_on_load'));
 			}
-			add_action('load-'. $this->_pagehooks['dashboard-feeds'], 		array(&$this, 'settings_panel_on_load'));
 		}
 
 		function settings_panel_on_load() {
@@ -258,7 +259,16 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 						$df_widgets = array();
 					
 					if (isset($_POST['widget-rss']['df-new'])) {
-						$widget_id = sprintf("df-%d", count($df_widgets)+1);
+						$widget_count = 1;
+						while(true) {
+							$widget_id = sprintf("df-%d", $widget_count);
+							if (!isset($df_widgets[$widget_id])) {
+								break;
+							} else {
+								$widget_count += 1;
+							}
+						}
+						
 						$df_widgets[$widget_id] = array();
 						
 						if (isset($_POST['widget-rss']['df-new']['link']))
@@ -513,7 +523,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 					<div id="wpmudev-dashvboard-feeds-panel" class="wrap wpmudev-dashvboard-feeds-wrap">
 						<?php screen_icon(); ?>
 						<h2><?php _ex("Add New Dashboard Feed", "New Page Title", 'dashboard-feeds'); ?></h2>
-						<?php $this->show_dashboard_feed_form($df_widgets[$df_item_number]); ?>
+						<?php $this->show_dashboard_feed_form(); ?>
 					</div>
 					<?php
 					$_SHOW_LISTING = false;
@@ -618,6 +628,12 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 				$widget_options['url']    			= esc_url( $widget_options['url'] );
 			else
 				$widget_options['url']				= '';
+			
+			if (isset($widget_options['link']))
+				$widget_options['link']    			= esc_url( $widget_options['link'] );
+			else
+				$widget_options['link']				= '';
+			
 			
 			if (isset($widget_options['items']))
 				$widget_options['items']  			= (int) $widget_options['items'];
