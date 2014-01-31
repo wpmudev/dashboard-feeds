@@ -3,7 +3,7 @@
 Plugin Name: Dashboard Feeds
 Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
-Author: Paul Menard (Incsub)
+Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
 Version: 2.0.4.4
 WDP ID: 15
