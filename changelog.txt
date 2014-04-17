@@ -4,6 +4,11 @@ Authors: Paul Menard (Incsub)
 == Changelog ==
 
 = 2.0.4.4 =
+2014-04-17
+* Corrected PHP notice reported on Add New Feed form
+* Test for WordPress 3.9
+
+= 2.0.4.4 =
 2014-01-09
 * Cleanup some PHP notices from uninitialized variables.
 

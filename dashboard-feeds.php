@@ -5,8 +5,13 @@ Plugin URI: http://premium.wpmudev.org/project/dashboard-feeds
 Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
-Version: 2.0.4.4
+Version: 2.0.4.5
 WDP ID: 15
+Text Domain: dashboard-feeds
+Domain Path: /languages
+
+
+
 License: GNU General Public License (Version 2 - GPLv2)
 
 Copyright 2012 Incsub (http://incsub.com)
@@ -35,7 +40,7 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		var $wpmudev_dashboard_feeds_list_table;
 		
 		function __construct() {
-			$this->_settings['VERSION'] = "2.0.4.4";
+			$this->_settings['VERSION'] = "2.0.4.5";
 			
 			// Support for WPMU DEV Dashboard plugin
 			global $wpmudev_notices;
@@ -330,6 +335,8 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 						die();
 						
 					} else {
+						//$df_widgets = $this->get_df_feed_widgets_items();
+						//echo "df_widgets<pre>"; print_r($df_widgets); echo "</pre>";
 						//echo "_POST<pre>"; print_r($_POST); echo "</pre>";
 						//die();
 						
@@ -589,6 +596,11 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 		 }
 		
 		function show_dashboard_feed_form($widget_options = array()) {
+			if ((isset($widget_options['number'])) && (!empty($widget_options['number'])))
+				$widget_options['number'] 			= esc_attr( $widget_options['number'] );
+			else
+				$widget_options['number']			= 'df-new';
+
 			?>
 			<form id="dashboard-feeds-form" method="post" action="">
 				<input name="df-form-submit" value="1" type="hidden" />
@@ -614,22 +626,22 @@ if (!class_exists('WPMUDEV_Dashboard_Feeds')) {
 			
 			//echo "widget_options<pre>"; print_r($widget_options); echo "</pre>";
 
-			if (isset($widget_options['number']))
+			if ((isset($widget_options['number'])) && (!empty($widget_options['number'])))
 				$widget_options['number'] 			= esc_attr( $widget_options['number'] );
-			else 
+			else
 				$widget_options['number']			= 'df-new';
 			
-			if (isset($widget_options['title']))
+			if ((isset($widget_options['title'])) && (!empty($widget_options['title'])))
 				$widget_options['title']  			= esc_attr( $widget_options['title'] );
 			else
 				$widget_options['title']			= '';
 			
-			if (isset($widget_options['url']))
+			if ((isset($widget_options['url'])) && (!empty($widget_options['url'])))
 				$widget_options['url']    			= esc_url( $widget_options['url'] );
 			else
 				$widget_options['url']				= '';
 			
-			if (isset($widget_options['link']))
+			if ((isset($widget_options['link'])) && (!empty($widget_options['link'])))
 				$widget_options['link']    			= esc_url( $widget_options['link'] );
 			else
 				$widget_options['link']				= '';
